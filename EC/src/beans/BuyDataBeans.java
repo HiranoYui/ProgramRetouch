@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,6 +22,12 @@ public class BuyDataBeans  implements Serializable {
 	private int deliveryMethodPrice;
 
 
+	public BuyDataBeans(int userId, int totalPrice, Timestamp buyDate, String delivertMethodName) {
+		// TODO 自動生成されたコンストラクター・スタブ★
+	}
+	public BuyDataBeans() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
 	public int getId() {
 		return id;
 	}

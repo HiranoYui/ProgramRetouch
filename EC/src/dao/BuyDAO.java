@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import base.DBManager;
 import beans.BuyDataBeans;
@@ -63,7 +65,7 @@ public class BuyDAO {
 	 * @throws SQLException
 	 * 				呼び出し元にスローさせるため
 	 */
-	public static BuyDataBeans getBuyDataBeansByBuyId(int buyId) throws SQLException {
+	public static BuyDataBeans getBuyDataBeansByBuyId(String buyId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -74,7 +76,7 @@ public class BuyDAO {
 							+ " JOIN m_delivery_method"
 							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
 							+ " WHERE t_buy.id = ?");
-			st.setInt(1, buyId);
+			st.setString(1, buyId);
 
 			ResultSet rs = st.executeQuery();
 
@@ -102,4 +104,50 @@ public class BuyDAO {
 		}
 	}
 
+	public static List<BuyDataBeans> getBuyDataBeansByUserId(int userId) throws SQLException {
+		Connection con = null;
+		List<BuyDataBeans> bdbList=new ArrayList<BuyDataBeans>();
+
+		try {
+			con = DBManager.getConnection();
+
+			String sql =
+					"SELECT * FROM t_buy"
+							+ " JOIN m_delivery_method"
+							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
+							+ " WHERE t_buy.user_id = ?";
+
+			PreparedStatement pStmt = con.prepareStatement(sql);
+			pStmt.setInt(1,userId);
+			ResultSet rs = pStmt.executeQuery();
+
+
+
+			while(rs.next()) {
+				BuyDataBeans bdb = new BuyDataBeans();
+				bdb.setTotalPrice(rs.getInt("total_price"));
+				bdb.setBuyDate(rs.getTimestamp("create_date"));
+				bdb.setDeliveryMethodName(rs.getString("name"));
+				bdb.setId(rs.getInt("id"));
+
+
+
+
+				bdbList.add(bdb);
+
+			}
+
+
+
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SQLException(e);
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+		}
+		return bdbList;
+	}
 }

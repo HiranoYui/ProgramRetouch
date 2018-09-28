@@ -47,8 +47,8 @@ public class BuyResult extends HttpServlet {
 			}
 
 
-			/* ====購入完了ページ表示用==== */
-			BuyDataBeans resultBDB = BuyDAO.getBuyDataBeansByBuyId(buyId);
+			/* ====購入完了ページ表示用====*/
+			BuyDataBeans resultBDB = BuyDAO.getBuyDataBeansByBuyId(String.valueOf(buyId));
 			request.setAttribute("resultBDB", resultBDB);
 
 			// 購入アイテム情報

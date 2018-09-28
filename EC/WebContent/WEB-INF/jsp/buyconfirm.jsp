@@ -40,14 +40,40 @@
 									</c:forEach>
 									<tr>
 
-										<td class="center">${bdb.deliveryMethodName}</td>
+
 										<td class="center"></td>
+										<c:if test="${bdb.delivertMethodId==1}" >
+										<td class="center">特急配送</td>
+										<td class="center">${bdb.deliveryMethodPrice+500}円</td>
+
+									</tr>
+									<tr>
+										<td class="center"></td>
+										<td class="center">合計</td>
+										<td class="center">${bdb.totalPrice+500}円</td>
+                                       </c:if>
+
+                                       <c:if test="${bdb.delivertMethodId==2}" >
+										<td class="center">通常配送</td>
 										<td class="center">${bdb.deliveryMethodPrice}円</td>
+
 									</tr>
 									<tr>
 										<td class="center"></td>
 										<td class="center">合計</td>
 										<td class="center">${bdb.totalPrice}円</td>
+                                       </c:if>
+
+                                        <c:if test="${bdb.delivertMethodId==3}" >
+										<td class="center">日付指定配送</td>
+										<td class="center">${bdb.deliveryMethodPrice+200}円</td>
+
+									</tr>
+									<tr>
+										<td class="center"></td>
+										<td class="center">合計</td>
+										<td class="center">${bdb.totalPrice+200}円</td>
+                                       </c:if>
 									</tr>
 								</tbody>
 							</table>

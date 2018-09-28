@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import base.DBManager;
 import beans.ItemDataBeans;
@@ -63,6 +64,7 @@ public class ItemDAO {
 	 * @param itemId
 	 * @return ItemDataBeans
 	 * @throws SQLException
+	 *
 	 */
 	public static ItemDataBeans getItemByItemID(int itemId) throws SQLException {
 		Connection con = null;
@@ -178,4 +180,48 @@ public class ItemDAO {
 		}
 	}
 
-}
+	public static List<ItemDataBeans> getItemDataBeansBybuyId(String buyId) throws SQLException {
+		Connection con = null;
+		List<ItemDataBeans> idbList=new ArrayList<ItemDataBeans>();
+
+		try {
+			con = DBManager.getConnection();
+
+			String sql =
+					"SELECT * FROM t_buy_detail"
+							+ " JOIN m_item"
+							+ " ON m_item.id=t_buy_detail.item_id"
+							+ " WHERE t_buy_detail.buy_id=?";
+
+			PreparedStatement pStmt = con.prepareStatement(sql);
+			pStmt.setString(1,buyId);
+			ResultSet rs = pStmt.executeQuery();
+
+
+
+			while(rs.next()) {
+				ItemDataBeans idb = new ItemDataBeans();
+				idb.setName(rs.getString("name"));
+				idb.setPrice(rs.getInt("price"));
+
+				idbList.add(idb);
+
+			}
+
+
+
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SQLException(e);
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+		}
+		return idbList;
+	}
+
+	}
+
+
